@@ -69,7 +69,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
   void listenToNotifications() {
     log("start listen");
-
     FirebaseMessaging.onMessage.listen((message) async {
       log("Foreground message: ${message.data}");
       await NotificationHelper.increaseCount();
@@ -86,6 +85,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       setState(() {
         notificationCount = count;
       });
+      LocalNotificationService.showBasicNotification(message);
     });
   }
 
