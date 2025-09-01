@@ -1,10 +1,10 @@
 
-import 'package:assistantapp/widgets/custom_widgets/customappbar.dart';
+import 'package:assistantapp/core/class/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/constances/colors.dart';
-import '../../../../models/appointment_model/Cardmodel.dart';
+import '../../model/Cardmodel.dart';
 import '../../../../models/change_operation_status/change_status_model.dart';
-import '../../../../widgets/custom_widgets/CustomButton.dart';
+import '../../../../core/class/custom_button.dart';
 import '../../controller/appointment/appiontment_controller.dart';
 import '../../controller/operation_tools/implant_controller.dart';
 import '../../controller/operation_tools/surgical_kit_controller.dart';
@@ -55,7 +55,7 @@ class Appointmentdetails extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
-      appBar: Customappbar(
+      appBar: CustomAppBar(
         title: "Details",
         subtitle: "Your appointment details",
       ),

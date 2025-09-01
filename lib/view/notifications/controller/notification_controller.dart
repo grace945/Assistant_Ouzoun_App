@@ -1,13 +1,13 @@
-import 'package:assistantapp/core/services/api/notifications_api.dart';
+import 'package:assistantapp/view/notifications/web_services/notifications_api.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 
 import 'package:flutter/material.dart';
 
 import '../../../core/services/helper.dart';
-import '../../../models/notification_model/device_token_request.dart';
-import '../../../models/notification_model/grouped_notification_response.dart';
-import '../../../models/notification_model/notifications_model.dart';
+import '../model/device_token_request.dart';
+import '../model/grouped_notification_response.dart';
+import '../model/notifications_model.dart';
 
 class NotificationController extends GetxController with GetTickerProviderStateMixin  {
   var isLoading = true.obs;

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../../models/notification_model/grouped_notification_response.dart';
+import '../../model/grouped_notification_response.dart';
 import '../../controller/notification_controller.dart';
 import 'notification_section.dart';
 

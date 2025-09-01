@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../widget/operation_tools/implant_card.dart';
-import '../../../../widgets/custom_widgets/customappbar.dart';
+import '../../../../core/class/custom_app_bar.dart';
 import '../../controller/operation_tools/implant_controller.dart';
 import 'package:lottie/lottie.dart';
 
@@ -16,7 +16,7 @@ class ImplantKitsPage extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: isDarkMode ? Colors.black : Colors.grey[100],
-      appBar: Customappbar(
+      appBar: CustomAppBar(
         title: "Implant Kit",
         subtitle: "Details & Tools",
       ),

@@ -1,5 +1,5 @@
 import 'package:assistantapp/core/constances/colors.dart';
-import 'package:assistantapp/widgets/custom_widgets/customappbar.dart';
+import 'package:assistantapp/core/class/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -18,7 +18,7 @@ class RequiredToolsPage extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: isDarkMode ? Colors.black : Colors.grey[100],
-      appBar: Customappbar(
+      appBar: CustomAppBar(
         title: "Required Tools",
         subtitle: "",
       ),

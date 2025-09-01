@@ -1,25 +1,31 @@
 import 'package:flutter/animation.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
-import '../../../core/services/api/review_api.dart';
+import '../api_services/review_api.dart';
 import '../../../core/services/helper.dart';
-import '../../../models/evaluation_model/review_model.dart';
+import '../models/review_model.dart';
 
 
 class ReviewController extends GetxController with GetTickerProviderStateMixin {
 
   var isLoading = true.obs;
-  List<ReviewModel> review=[];
-  var reviews = <ReviewModel>[].obs;
+  var isSearching = false.obs;
+
+  // القائمة الأصلية
+  List<ReviewModel> reviews = [];
+  // القائمة المعروضة بعد البحث
+  var filteredReviews = <ReviewModel>[].obs;
+
   final List<AnimationController> controllers = [];
   final List<Animation<Offset>> offsets = [];
+
   late ApiService _apiService;
   bool _isDisposed = false;
+
   @override
   void onInit() {
     super.onInit();
-    final dio = Dio();
-    _apiService = ApiService(dio);
+    _apiService = ApiService(Dio());
     fetchReviews();
   }
 
@@ -30,14 +36,14 @@ class ReviewController extends GetxController with GetTickerProviderStateMixin {
       String ?token= _prefeshelpre.prefs.getString("token");
 
       final fetchedReviews = await _apiService.getReviews("Bearer $token");
-      review=await _apiService.getReviews("Bearer $token");
-      print("sssssssssssssssssssssssssss$fetchedReviews");
       if (fetchedReviews.isNotEmpty) {
-
         fetchedReviews.sort((a, b) => b.id.compareTo(a.id));
         fetchedReviews.first.isLatest = true;
       }
-      reviews.assignAll(fetchedReviews);
+
+      reviews = fetchedReviews;
+      filteredReviews.assignAll(fetchedReviews);
+
       _initAnimations();
 
     } catch (e) {
@@ -74,5 +80,14 @@ class ReviewController extends GetxController with GetTickerProviderStateMixin {
       });
     }
   }
-
+  void searchReviews(String query) {
+    if (query.isEmpty) {
+      filteredReviews.assignAll(reviews);
+    } else {
+      filteredReviews.value = reviews
+          .where((r) => r.doctorName.toLowerCase().contains(query.toLowerCase()))
+          .toList();
+    }
+    _initAnimations();
+  }
 }

@@ -1,5 +1,5 @@
 import 'package:assistantapp/core/constances/colors.dart';
-import 'package:assistantapp/widgets/custom_widgets/customappbar.dart';
+import 'package:assistantapp/core/class/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../controller/operation_tools/surgical_kit_controller.dart';
@@ -16,7 +16,7 @@ class SurgicalKitPage extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: isDarkMode ? Colors.black : Colors.grey[100],
-      appBar: Customappbar(
+      appBar: CustomAppBar(
         title: "Surgical Kit",
         subtitle: "See the required data",
       ),

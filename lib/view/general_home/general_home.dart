@@ -1,14 +1,18 @@
 import 'dart:developer';
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
+import 'package:assistantapp/core/class/custom_drawer.dart';
 import 'package:assistantapp/core/constances/colors.dart';
-import 'package:assistantapp/view/home/pages/homepagescreen.dart';
+import 'package:assistantapp/view/scheduling/models/vacation-status.dart';
+import 'package:assistantapp/view/home/pages/home_page_screen.dart';
 import 'package:assistantapp/view/notifications/pages/display_notifications.dart';
-import 'package:assistantapp/view/scheduleoffdays/pages/display-schedule-off-days.dart';
+import 'package:assistantapp/view/scheduling/controller/schedule_controller.dart';
+import 'package:assistantapp/view/scheduling/pages/display-schedule-off-days.dart';
 import 'package:assistantapp/view/setting/pages/setting_main_screen.dart';
+import 'package:assistantapp/core/class/custom_app_bar.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-
+import 'package:get/get.dart';
 import '../../core/services/notifications/local_notification_services.dart';
 import '../../core/services/notifications/notifications_helper.dart';
 
@@ -29,8 +33,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   late final AnimationController _hideBottomBarAnimationController;
 
   final List<Widget> pages = const [
-    Homepagescreen(),
-    VacationRequestPage(),
+    HomePageScreen(),
+    DisplayVacation(),
     NotificationScreen(),
     SettingMainScreen(),
   ];
@@ -98,6 +102,59 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar:  _bottomNavIndex == 0
+          ? CustomAppBar(title: "Welcome Doctor", subtitle: 'Manage your tasks easily',)
+          : _bottomNavIndex == 1
+          ? CustomAppBar(title: "Off_Days", subtitle: 'your off_days you have requested is here',showFilter: true,showsearch: false,onFilterTap:() {
+        showDialog(
+          context: context,
+          builder: (ctx) {
+            return AlertDialog(
+              title: const Text("Filter by Status"),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ListTile(
+                    title: const Text("Pending"),
+                    onTap: () {
+                      Get.find<schedulecontroller>().selectedStatus.value =
+                          VacationStatus.pending;
+                      Navigator.pop(ctx);
+                    },
+                  ),
+                  ListTile(
+                    title: const Text("Accepted"),
+                    onTap: () {
+                      Get.find<schedulecontroller>().selectedStatus.value =
+                          VacationStatus.Accepted;
+                      Navigator.pop(ctx);
+                    },
+                  ),
+                  ListTile(
+                    title: const Text("Rejected"),
+                    onTap: () {
+                      Get.find<schedulecontroller>().selectedStatus.value =
+                          VacationStatus.rejected;
+                      Navigator.pop(ctx);
+                    },
+                  ),
+                  ListTile(
+                    title: const Text("All"),
+                    onTap: () {
+                      Get.find<schedulecontroller>().selectedStatus.value = null;
+                      Navigator.pop(ctx);
+                    },
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },)
+          : _bottomNavIndex == 2
+          ? CustomAppBar(title: "Notification", subtitle: 'this is your notification',)
+          : CustomAppBar(title: "Settings", subtitle: '',),
+      drawer: CustomDrawer(),
       extendBodyBehindAppBar: _bottomNavIndex == 0,
       body: pages[_bottomNavIndex],
       bottomNavigationBar: AnimatedBottomNavigationBar.builder(

@@ -1,26 +1,39 @@
-
 import 'package:flutter/material.dart';
-import '../../../core/constances/colors.dart';
-import '../../../models/evaluation_model/review_model.dart';
-import '../../../widgets/custom_widgets/customappbar.dart';
-import '../controller/evaluation_controller.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import '../models/review_model.dart';
+import '../../../core/class/custom_app_bar.dart';
+import '../controller/evaluation_controller.dart';
 import '../widget/current_evaluation.dart';
 import '../widget/evaluation_item.dart';
-
 
 class EvaluationScreen extends StatelessWidget {
   const EvaluationScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
     final ReviewController controller = Get.find();
 
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
-      appBar: Customappbar(title: "Procedure Evaluation", subtitle: ""),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(70),
+        child: Obx(() => CustomAppBar(
+          title: "Procedure Evaluation",
+          subtitle: "",
+          showsearch: true,
+          isSearching: controller.isSearching.value,
+          onSearchChanged: controller.searchReviews,
+          onSearchToggle: () {
+            if (controller.isSearching.value) {
+              controller.isSearching(false);
+              controller.searchReviews("");
+            } else {
+              controller.isSearching(true);
+            }
+          },
+        )),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Obx(() {
@@ -33,18 +46,19 @@ class EvaluationScreen extends StatelessWidget {
                 height: 150,
                 width: 150,
               ),
-            );;
+            );
           }
 
-          if (controller.reviews.isEmpty) {
+          if (controller.filteredReviews.isEmpty) {
             return const Center(child: Text("No reviews found."));
           }
 
+          final latestReview = controller.filteredReviews
+              .firstWhereOrNull((r) => r.isLatest);
 
-          final ReviewModel? latestReview = controller.reviews.firstWhereOrNull((r) => r.isLatest);
-
-
-          final List<ReviewModel> previousReviews = controller.reviews.where((r) => !r.isLatest).toList();
+          final previousReviews = controller.filteredReviews
+              .where((r) => !r.isLatest)
+              .toList();
 
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -55,14 +69,8 @@ class EvaluationScreen extends StatelessWidget {
                   note: latestReview.note ?? "No note provided.",
                   ratingNumber: latestReview.rate.toDouble(),
                 ),
-
               const SizedBox(height: 24),
-              if (previousReviews.isNotEmpty) ...[
-                Text(
-                  'Previous Evaluations',
-                  style: Theme.of(context).textTheme.bodyLarge,
-                ),
-                const SizedBox(height: 12),
+              if (previousReviews.isNotEmpty)
                 Expanded(
                   child: ListView.builder(
                     itemCount: previousReviews.length,
@@ -77,15 +85,17 @@ class EvaluationScreen extends StatelessWidget {
                       );
                     },
                   ),
-                ),
-              ] else ...[
+                )
+              else
                 const Center(
                   child: Padding(
                     padding: EdgeInsets.all(16.0),
-                    child: Text("No previous evaluations found.",style: TextStyle(color: Colors.grey),),
+                    child: Text(
+                      "No previous evaluations found.",
+                      style: TextStyle(color: Colors.grey),
+                    ),
                   ),
-                )
-              ]
+                ),
             ],
           );
         }),
@@ -93,6 +103,7 @@ class EvaluationScreen extends StatelessWidget {
     );
   }
 }
+
 
 
 

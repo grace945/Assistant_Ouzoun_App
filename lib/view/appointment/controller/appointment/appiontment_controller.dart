@@ -1,21 +1,20 @@
-import 'package:assistantapp/core/services/api/appiontment_api.dart';
+import 'package:assistantapp/view/appointment/web_services/appiontment_api.dart';
 import 'package:assistantapp/core/services/helper.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/animation.dart';
 import 'package:get/get.dart';
-import '../../../../models/appointment_model/appiontment_model.dart'
-    hide Doctor;
-import '../../../../models/appointment_model/get_tool_data_model.dart';
+import '../../model/appiontment_model.dart' hide Doctor;
+import '../../model/get_tool_data_model.dart' hide Clinic;
 import '../../../../models/change_operation_status/change_status_model.dart';
 
 class ApiontmentController extends GetxController with GetTickerProviderStateMixin {
-  List<ScheduleRequestModel> _originalAppiontments = [];
-  RxList<ScheduleRequestModel> displayedAppiontments = <ScheduleRequestModel>[].obs;
+  List<AppiontmentModel> _originalAppiontments = [];
+  RxList<AppiontmentModel> displayedAppiontments = <AppiontmentModel>[].obs;
   RxString searchQuery = "".obs;
-
+  var isSearching = false.obs;
   Rx<Clinic?> clinic = Rx<Clinic?>(null);
   Rx<Doctor?> doctor = Rx<Doctor?>(null);
-  Rx<AppointmentModel?> detalis = Rx<AppointmentModel?>(null);
+  Rx<AppointmentToolModel?> detalis = Rx<AppointmentToolModel?>(null);
   RxBool isLoading = true.obs;
   RxBool isLoadingAppiontment = true.obs;
   late final AppiontmentApi _api;
@@ -37,7 +36,6 @@ class ApiontmentController extends GetxController with GetTickerProviderStateMix
       ),
     );
 
-    ever(searchQuery, (_) => applyFilter());
 
     getAllAppiontment();
   }
@@ -66,8 +64,7 @@ class ApiontmentController extends GetxController with GetTickerProviderStateMix
     }
   }
 
-  void applyFilter() {
-    final query = searchQuery.value.toLowerCase();
+  void applyFilter(String query) {
     if (query.isEmpty) {
       displayedAppiontments.assignAll(_originalAppiontments);
     } else {
@@ -123,8 +120,14 @@ class ApiontmentController extends GetxController with GetTickerProviderStateMix
 
       if (response.doctor != null) {
         doctor.value = response.doctor;
-        if (response.doctor!.clinic != null) {
-          clinic.value = response.doctor!.clinic;
+        if (response.doctor?.clinic != null) {
+          clinic.value = Clinic(
+            id: response.doctor!.clinic!.id,
+            name: response.doctor!.clinic!.name,
+            address: response.doctor!.clinic!.address,
+            longtitude: response.doctor!.clinic!.longtitude,
+            latitude: response.doctor!.clinic!.latitude,
+          );
           endLng.value = response.doctor?.clinic?.longtitude ?? 0.0;
           endLat.value = response.doctor?.clinic?.latitude ?? 0.0;
           print("latttttttttt${endLat.value}");
@@ -171,4 +174,17 @@ class ApiontmentController extends GetxController with GetTickerProviderStateMix
   void goToDetails(Map<String, dynamic> details) {
     Get.toNamed('/appointmentDetails', arguments: details);
   }
+
+  @override
+  void onClose() {
+    _isDisposed = true;
+    for (final controller in controllers) {
+      controller.dispose();
+    }
+    controllers.clear();
+    offsets.clear();
+    super.onClose();
+  }
+
+
 }

@@ -1,11 +1,11 @@
 class AppRoutes{
-  static const splash="/splash";
+  static const splash="/on_boarding";
   static const checkemail="/check";
   static const code='/code';
   static const resetpage='/Reset';
   static const register = '/register';
   static const login = '/login';
-  static const Schedulescreen='/schedule';
+  static const ScheduleScreen='/schedule';
   static const displayvacation='/VacationRequestPage';
   static const Homepagescreen='/home';
   static const appiontmentdetails='/appointmentDetails';

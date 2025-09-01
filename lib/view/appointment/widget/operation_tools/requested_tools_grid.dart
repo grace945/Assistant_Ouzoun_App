@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:assistantapp/models/appointment_model/Cardmodel.dart';
+import 'package:assistantapp/view/appointment/model/Cardmodel.dart';
 import 'package:assistantapp/core/constances/colors.dart';
 import 'package:get/get.dart';
 

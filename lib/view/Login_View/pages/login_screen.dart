@@ -1,13 +1,13 @@
-import 'package:assistantapp/core/class/inputvalidator.dart';
+import 'package:assistantapp/core/services/validation/inputvalidator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import '../../../Routes/AppRoutes.dart';
 import '../../../core/constances/colors.dart';
 import '../../../core/services/helper.dart';
-import '../../../models/auth_model/login-request.dart';
-import '../../../widgets/custom_widgets/CustomButton.dart';
-import '../../../widgets/custom_widgets/CustomTextForm.dart';
+import '../models/login-request.dart';
+import '../../../core/class/custom_button.dart';
+import '../../../core/class/custom_text_form.dart';
 import '../controller/login_controller.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -84,25 +84,6 @@ class LoginScreen extends StatelessWidget {
                             obscureText: _controller.passwordvisiblity.value,
                             mycontroller: _controller.passwordController,
                             hinttext: 'Enter Your Password'.tr,
-                          ),
-                          SizedBox(height: height * 0.01),
-                          InkWell(
-                            onTap: () => {Get.toNamed(AppRoutes.checkemail)},
-                            child: Container(
-                              alignment: Alignment.topRight,
-                              margin: EdgeInsets.only(
-                                top: height * 0.01,
-                                bottom: height * 0.02,
-                              ),
-                              child: Text(
-                                "Forgot Password ?".tr,
-                                style: TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  fontSize: width * 0.03,
-                                  color: green,
-                                ),
-                              ),
-                            ),
                           ),
                           SizedBox(height: height * 0.08),
                           Custombutton(

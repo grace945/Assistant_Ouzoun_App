@@ -1,8 +1,8 @@
 
 import 'package:assistantapp/core/services/notifications/local_notification_services.dart';
 import 'package:assistantapp/view/general_home/general_home.dart';
-import 'package:assistantapp/view/setting/controller/settingscontroller.dart';
-import 'package:assistantapp/view/splash/pages/splash.dart';
+import 'package:assistantapp/view/setting/controller/settings_controller.dart';
+import 'package:assistantapp/view/splash/screens/splash.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -38,9 +38,16 @@ void main() async{
 
 
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
    MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
    final controller = Get.put(SettingsController());
+
    Future<String> checkToken() async {
      final helper prefsHelper = Get.find<helper>();
      final token = prefsHelper.prefs.getString("token");
@@ -49,8 +56,10 @@ class MyApp extends StatelessWidget {
    }
 
 
-  @override
+
+   @override
   Widget build(BuildContext context) {
+
     return Obx(()=> GetMaterialApp(
               initialBinding: InitalizeBinding(),
               translations: MyTranslatin(),
@@ -77,5 +86,6 @@ class MyApp extends StatelessWidget {
     )
     );
   }
+
 }
 

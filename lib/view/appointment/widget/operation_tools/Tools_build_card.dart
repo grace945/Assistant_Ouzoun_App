@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/constances/colors.dart';
-import '../../../../models/appointment_model/get_tool_data_model.dart';
+import '../../model/get_tool_data_model.dart';
 
 
 class ToolsBuildCard extends StatelessWidget {

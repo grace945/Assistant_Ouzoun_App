@@ -1,4 +1,4 @@
-import 'package:assistantapp/widgets/custom_widgets/customappbar.dart';
+import 'package:assistantapp/core/class/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controller/notification_controller.dart';
@@ -23,7 +23,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      appBar: Customappbar(title: "Notifications", subtitle:"this is your notification"),
       backgroundColor: Theme.of(context).colorScheme.background,
       body:  Obx(()
     {

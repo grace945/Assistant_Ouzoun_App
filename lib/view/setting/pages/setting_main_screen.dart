@@ -1,9 +1,10 @@
 import 'package:assistantapp/core/constances/colors.dart';
+import 'package:assistantapp/view/setting/pages/profile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../models/settings_model/settings_item_model.dart';
-import '../controller/settingscontroller.dart';
+import '../models/settings_item_model.dart';
+import '../controller/settings_controller.dart';
 import '../settings_widget/settings_appbar.dart';
 import '../settings_widget/settings_data.dart';
 import '../settings_widget/settings_user_data.dart';
@@ -22,22 +23,29 @@ class _SettingMainScreenState extends State<SettingMainScreen> {
     super.initState();
     controller.userData();
   }
+
   @override
   Widget build(BuildContext context) {
     SettingsController controller = Get.find();
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
-      appBar: SettingsAppbar(),
       body: Padding(
         padding: const EdgeInsets.all(12.0),
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Obx(()=> SettingsUserData(
+              Obx(
+                () => SettingsUserData(
                   controller: controller,
                   userName: controller.name.value,
                   userEmail: controller.email.value,
+                  number: controller.number.value,
+                  image:
+                      (controller.profileImage.value != null &&
+                          controller.profileImage.value.isNotEmpty)
+                      ? controller.profileImage.value
+                      : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwf9i0J-G6U4eYtpj8mdTMeUoONoWK4g2w1JuUmRw-5_1ffkJ1sa8lhqogoq5xyBzFDIY&usqp=CAU",
                 ),
               ),
               SizedBox(height: 15),
@@ -84,6 +92,13 @@ class _SettingMainScreenState extends State<SettingMainScreen> {
                       );
                     },
                   ),
+                  SettingsItemModel(
+                    icon: Icons.person,
+                    itemName: "Profile",
+                    onTap: () {
+                      Get.to(ProfilePage());
+                    },
+                  ),
                 ],
               ),
               SizedBox(height: 20),
@@ -100,12 +115,18 @@ class _SettingMainScreenState extends State<SettingMainScreen> {
                     onTap: () {
                       Get.bottomSheet(
                         Container(
-                          color:isDarkMode?Colors.white10:Colors.black38 ,
+                          color: isDarkMode ? Colors.white10 : Colors.black38,
                           padding: EdgeInsets.all(16),
                           child: Obx(
-                                () => ListTile(
-                              leading: Icon(Icons.notifications_active,color: green,),
-                              title: Text("Enable Notifications",style:  Theme.of(context).textTheme.bodyMedium),
+                            () => ListTile(
+                              leading: Icon(
+                                Icons.notifications_active,
+                                color: green,
+                              ),
+                              title: Text(
+                                "Enable Notifications",
+                                style: Theme.of(context).textTheme.bodyMedium,
+                              ),
                               trailing: Switch(
                                 value: controller.notificationsEnabled.value,
                                 onChanged: (val) {
@@ -127,48 +148,47 @@ class _SettingMainScreenState extends State<SettingMainScreen> {
                   ),
                 ],
               ),
-              SizedBox(height: 20,),
-              SettingsData(item:[
-                SettingsItemModel(
-                  icon: Icons.arrow_back,
-                  itemName: "Leave",
-                  onTap: () {},
-                ),
-                SettingsItemModel(
-                  icon: Icons.logout,
-                  itemName: "Logout",
-                  onTap: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return AlertDialog(
-                          title: Text("Confirm Logout"),
-                          content: Text("Are you sure you want to log out?"),
-                          actions: [
-                            TextButton(
-                              child: Text("Cancel"),
-                              onPressed: () => Navigator.pop(context),
-                            ),
-                            TextButton(
-                              child: Text("Logout"),
-                              onPressed: () async {
-                                await controller.logout();
-
-                              },
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                  },
-                ),
-
-              ])
+              SizedBox(height: 20),
+              SettingsData(
+                item: [
+                  SettingsItemModel(
+                    icon: Icons.arrow_back,
+                    itemName: "Leave",
+                    onTap: () {},
+                  ),
+                  SettingsItemModel(
+                    icon: Icons.logout,
+                    itemName: "Logout",
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: Text("Confirm Logout"),
+                            content: Text("Are you sure you want to log out?"),
+                            actions: [
+                              TextButton(
+                                child: Text("Cancel"),
+                                onPressed: () => Navigator.pop(context),
+                              ),
+                              TextButton(
+                                child: Text("Logout"),
+                                onPressed: () async {
+                                  await controller.logout();
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ],
+              ),
             ],
           ),
         ),
       ),
-
     );
   }
 }

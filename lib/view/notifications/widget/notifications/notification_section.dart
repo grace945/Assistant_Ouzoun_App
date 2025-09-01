@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../core/constances/theme.dart';
-import '../../../../models/notification_model/notifications_model.dart';
+import '../../model/notifications_model.dart';
 import 'notification_card.dart';
 import 'package:intl/intl.dart';
 class NotificationDateSection extends StatelessWidget {

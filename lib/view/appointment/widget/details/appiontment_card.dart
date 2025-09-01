@@ -2,7 +2,7 @@ import 'package:assistantapp/core/constances/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../models/appointment_model/appiontment_model.dart';
+import '../../model/appiontment_model.dart';
 import '../../controller/appointment/appiontment_controller.dart';
 
 
@@ -60,7 +60,7 @@ class Appiontmentcard extends StatelessWidget {
             SizedBox(height: height * 0.02),
             Row(
               children: [
-                Icon(Icons.calendar_today, size: 14, color: Colors.grey),
+                Icon(Icons.calendar_today, size: 12, color: Colors.grey),
                 SizedBox(width: 4),
                 Text(
                   date,
@@ -68,8 +68,8 @@ class Appiontmentcard extends StatelessWidget {
                     context,
                   ).textTheme.bodySmall?.copyWith(color: Colors.grey),
                 ),
-                SizedBox(width: width * 0.02),
-                Icon(Icons.access_time, size: 14, color: Colors.grey),
+               Spacer(),
+                Icon(Icons.access_time, size: 12, color: Colors.grey),
                 SizedBox(width: 4),
                 Text(
                   time,

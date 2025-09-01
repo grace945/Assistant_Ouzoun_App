@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 import '../../../core/constances/colors.dart';
-import '../../../models/settings_model/settings_item_model.dart';
+import '../models/settings_item_model.dart';
 
 
 class SettingsData extends StatelessWidget {
@@ -33,7 +33,7 @@ class SettingsData extends StatelessWidget {
         physics: NeverScrollableScrollPhysics(),
         itemCount:item.length,
         itemBuilder:(context, index) =>
-          GestureDetector(
+          InkWell(
             onTap:item[index].onTap,
             child: Row(
               children: [

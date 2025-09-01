@@ -1,9 +1,9 @@
 
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
-import '../../../../core/services/api/appiontment_api.dart';
+import '../../web_services/appiontment_api.dart';
 import '../../../../core/services/helper.dart';
-import '../../../../models/appointment_model/get_tool_data_model.dart';
+import '../../model/get_tool_data_model.dart';
 
 
 class ToolsController extends GetxController {

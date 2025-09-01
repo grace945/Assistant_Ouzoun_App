@@ -4,9 +4,9 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../core/constances/colors.dart';
-import '../../../core/services/api/auth-api.dart';
-import '../../../models/auth_model/login-request.dart';
-import '../../../models/auth_model/refresh-token-request.dart';
+import '../api_services/auth-api.dart';
+import '../models/login-request.dart';
+import '../models/refresh-token-request.dart';
 import '../../general_home/general_home.dart';
 
 class LoginController extends GetxController {
@@ -119,7 +119,7 @@ class LoginController extends GetxController {
 
   void _startRefreshTokenTimer() {
     _refreshTimer?.cancel();
-    _refreshTimer = Timer.periodic(Duration(minutes: 1), (timer) {
+    _refreshTimer = Timer.periodic(Duration(minutes: 28), (timer) {
       print("🔄 Trying to refresh token...");
       refreshTokenIfExpired();
     });
