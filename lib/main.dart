@@ -1,12 +1,13 @@
 
 import 'package:assistantapp/core/services/notifications/local_notification_services.dart';
 import 'package:assistantapp/view/general_home/general_home.dart';
+import 'package:assistantapp/view/on_boarding/pages/on_boarding.dart';
 import 'package:assistantapp/view/setting/controller/settings_controller.dart';
-import 'package:assistantapp/view/splash/screens/splash.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'Binding/initalize_Binding.dart';
 import 'Routes/AppPages.dart';
 import 'core/constances/theme.dart';
@@ -27,11 +28,15 @@ void main() async{
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
-  ).then((value){
-    FirebaseMessaging.instance.requestPermission();
+  ).then((value) async{
+    final status = await Permission.notification.status;
+    if (!status.isGranted) {
+      await Permission.notification.request();
+    }
     LocalNotificationService.init();
     FirebaseMessaging.onBackgroundMessage(handleBackgroundMessaging);
   });
+
   FirebaseServices.init();
   runApp( MyApp());
 }
@@ -77,7 +82,7 @@ class _MyAppState extends State<MyApp> {
           }
           final token = snapshot.data!;
           if (token.isEmpty) {
-            return const SplashScreen();
+            return const OnBoarding();
           } else {
             return const MyHomePage(title: '');
           }

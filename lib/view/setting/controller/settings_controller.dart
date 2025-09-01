@@ -160,7 +160,7 @@ class SettingsController extends GetxController {
     )));
     _notificationApi = NotificationsApi(Dio());
 
-    requestNotificationPermission().then((_) => checkNotficationsStatus());
+     checkNotficationsStatus();
 
     // Theme
     final savedMode = services.prefs.getString("theme");
